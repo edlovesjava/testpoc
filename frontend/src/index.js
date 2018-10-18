@@ -50,17 +50,21 @@ class EventsTable extends React.Component {
 
 class AddEventModal extends React.Component {
 
+
     update () {
-        let event = {
-            name: this.refs.eventName.value,
-            date: moment(this.refs.eventDate.value + ' ' + this.refs.eventTime.value),
-            venue: {
-                name: this.refs.venueName.value,
-                city: this.refs.venueCity.value,
-                state: this.refs.venueState.value
+
+        if (this.refs.eventForm.checkValidity()) {
+            let event = {
+                name: this.refs.eventName.value,
+                date: moment(this.refs.eventDate.value + ' ' + this.refs.eventTime.value),
+                venue: {
+                    name: this.refs.venueName.value,
+                    city: this.refs.venueCity.value,
+                    state: this.refs.venueState.value
+                }
             }
+            this.props.onUpdate(event)
         }
-        this.props.onUpdate(event)
     }
 
     render() {
@@ -76,14 +80,14 @@ class AddEventModal extends React.Component {
                         <h4 className="modal-title">Add New Event</h4>
                       </div>
                       <div className="modal-body">
-                        <form className="addEventForm" name="addEventForm" ref='myForm'>
+                        <form className="addEventForm" name="addEventForm" ref='eventForm'>
                             <p>Event Information</p>
-                            <input ref='eventName' placeholder="Event Name" required minlength="3" maxlength="100"/>
+                            <input ref='eventName' placeholder="Event Name" required minLength="3" maxLength="100"/>
                             <input type='date' ref='eventDate' placeholder="Date" id="add-event-date" required />
                             <input type='time' ref='eventTime' placeholder="Time" id="add-event-time" required />
                             <p>Venue Information</p>
-                            <input ref = 'venueName' placeholder="Venue Name" required minlength="3" maxlength="100"/>
-                            <input ref = 'venueCity' placeholder="Venue City" required minlength="3" maxlength="100"/>
+                            <input ref = 'venueName' placeholder="Venue Name" required minLength="3" maxLength="100"/>
+                            <input ref = 'venueCity' placeholder="Venue City" required minLength="3" maxLength="100"/>
                             <select ref = 'venueState' name="state" size="1">
                                   <option value="AK">AK</option>
                                   <option value="AL">AL</option>
