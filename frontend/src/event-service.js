@@ -6,16 +6,16 @@ export default class VividSeats {
     }
 
     all(onSuccess, onError) {
-        // TODO implement network call to load all events
-
 
         fetch('http://localhost:8080/events')
         .then(result=>result.json())
-        .then(items=>onSuccess(items))
+        .then(items=>{
+            this._events = items;
+            onSuccess(items);
+        })
     }
 
     add(event, onSuccess, onError) {
-        // TODO implement network call to add an event
 
         this.postData('http://localhost:8080/events', event)
                 .then(item => onSuccess(item))

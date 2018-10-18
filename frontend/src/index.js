@@ -8,11 +8,10 @@ import './index.css';
 
 const eventService = new EventService();
 
-
 class EventRow extends React.Component {
    render () {
         return (
-            <tr className="events-table-header">
+            <tr className="events-table-body">
                <td>{this.props.event.name}</td>
                <td>{ moment(this.props.event.date).format('MMMM D h:mm A') }</td>
                <td>{this.props.event.venue.name}</td>
@@ -61,7 +60,7 @@ class AddEventModal extends React.Component {
                 state: this.refs.venueState.value
             }
         }
-        this.props.source.add(event, (res)=>{console.log('added', res)}, (error) => {console.log('error ',error)})
+        this.props.onUpdate(event)
     }
 
     render() {
@@ -77,14 +76,14 @@ class AddEventModal extends React.Component {
                         <h4 className="modal-title">Add New Event</h4>
                       </div>
                       <div className="modal-body">
-                        <form name="addEventForm" ref='myForm'>
+                        <form className="addEventForm" name="addEventForm" ref='myForm'>
                             <p>Event Information</p>
-                            <input ref='eventName' placeholder="Event Name" />
-                            <input type='date' ref='eventDate' placeholder="Date" id="add-event-date" />
-                            <input type='time' ref='eventTime' placeholder="Time" id="add-event-time" />
+                            <input ref='eventName' placeholder="Event Name" required minlength="3" maxlength="100"/>
+                            <input type='date' ref='eventDate' placeholder="Date" id="add-event-date" required />
+                            <input type='time' ref='eventTime' placeholder="Time" id="add-event-time" required />
                             <p>Venue Information</p>
-                            <input ref = 'venueName' placeholder="Venue Name" />
-                            <input ref = 'venueCity' placeholder="Venue City" />
+                            <input ref = 'venueName' placeholder="Venue Name" required minlength="3" maxlength="100"/>
+                            <input ref = 'venueCity' placeholder="Venue City" required minlength="3" maxlength="100"/>
                             <select ref = 'venueState' name="state" size="1">
                                   <option value="AK">AK</option>
                                   <option value="AL">AL</option>
@@ -160,7 +159,6 @@ class App extends React.Component {
 
     componentDidMount() {
         this.loadAll();
-
     }
 
     loadAll() {
@@ -169,15 +167,14 @@ class App extends React.Component {
         })
     }
 
-    onUpdate (data) {
-    console.log('on update fired')
-    this.loadAll()
+    onUpdate (event) {
+        this.props.source.add(event, (res)=>{console.log('added', res);this.loadAll()}, (error) => {console.log('error ',error)})
      }
 
     render() {
         return (<div>
-            <EventsTable events={this.state.events} source={this.props.source} />
-            <AddEventModal onUpdate={this.onUpdate.bind(this)} source={this.props.source} />
+            <EventsTable events={this.state.events}  />
+            <AddEventModal onUpdate={this.onUpdate.bind(this)}  />
 
 
         </div>
@@ -186,9 +183,9 @@ class App extends React.Component {
 
 // ========================================
 
-//let events = eventService.all();
 ReactDOM.render(
 
   <App source={eventService}/>,
   document.getElementById('root')
+
 );

@@ -1,0 +1,16 @@
+table.events-table {
+    margin-top: 30px;
+}
+
+tr.events-table-header  {
+    color : navy;
+}
+.addEventForm  > input {
+    margin: 3px;
+}
+.addEventForm > input:invalid {
+  background:  #f2dede;
+}
+
+.addEventForm input:valid {
+}
