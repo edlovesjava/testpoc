@@ -18,8 +18,8 @@ runs localhost:3000 (connects to localhost:8080)
 ## production build frontend
 
 ```
-npm build run
-cp -r build src/main/resources/static
+npm run build
+cp -R build ../src/main/resources/static
 ```
 
 
